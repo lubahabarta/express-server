@@ -1,18 +1,14 @@
 import { Request, Response } from 'express'
+import { createUser } from './user.service'
 
-export const getAllUsers = (req: Request, res: Response) => {
-    res.json({
-        users: ['all users'],
-    })
+export const createUserController = (req: Request, res: Response) => {
+    createUser()
 }
 
-export const getUserById = (req: Request, res: Response) => {
-    const { id } = req.params
-    console.log(id)
+export const getAllUsersController = (req: Request, res: Response) => {
+    
+}
 
-    res.json({
-        user: {
-            id,
-        },
-    })
+export const getUserByIdController = (req: Request, res: Response) => {
+    
 }

@@ -8,6 +8,6 @@ const router = express.Router()
 router.use(auth)
 
 // routes
-router.use('/users', userRouter())
+router.use('/user', userRouter())
 
 export default () => router
