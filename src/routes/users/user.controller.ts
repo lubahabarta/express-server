@@ -2,7 +2,6 @@ import { Request, Response } from 'express'
 import { ILoginReqBody, IRegisterReqBody } from '../../common/interfaces/users/auth.interface';
 import userService from './user.service';
 import { authentication, random } from '../../common/helpers';
-import { Model } from 'sequelize';
 
 const userController = {
     register: async (req: Request<any, any, IRegisterReqBody>, res: Response) => {
