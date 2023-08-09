@@ -1,7 +1,17 @@
-import { DataTypes } from 'sequelize'
+import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
 import db from '../../common/database/db.connect'
 
-const User = db.define('User', {
+interface UserModel extends Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {
+  id: CreationOptional<number>;
+  firstName: string;
+  lastName: string;
+  email: string;
+  hash: string;
+  salt: string;
+  accessToken?: string;
+}
+
+const User = db.define<UserModel>('User', {
     id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,

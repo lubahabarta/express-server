@@ -1,6 +1,7 @@
-import express from 'express'
+import express, { json } from 'express'
 import cors from 'cors'
 import dotenv from 'dotenv'
+import authRouter from './src/routes/users/auth'
 import router from './src/common/router'
 import db from './src/common/database/db.connect'
 
@@ -10,6 +11,8 @@ const app = express()
 const port = process.env.PORT
 
 app.use(cors())
+app.use(json())
+app.use('/auth', authRouter())
 app.use('/', router())
 
 // db connect

@@ -1,6 +1,7 @@
 import express from 'express'
-import userRouter from '../../routes/users/index'
-import auth from '../middleware/auth'
+import auth from '../middlewares/auth'
+import userRouter from '../../routes/users/router'
+import postRouter from '../../routes/posts/router'
 
 const router = express.Router()
 
@@ -9,5 +10,6 @@ router.use(auth)
 
 // routes
 router.use('/user', userRouter())
+router.use('/post', postRouter())
 
 export default () => router
