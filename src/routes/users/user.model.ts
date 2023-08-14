@@ -1,14 +1,14 @@
 import { CreationOptional, DataTypes, InferAttributes, InferCreationAttributes, Model } from 'sequelize'
 import db from '../../common/database/db.connect'
 
-interface UserModel extends Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {
-  id: CreationOptional<number>;
-  firstName: string;
-  lastName: string;
-  email: string;
-  hash: string;
-  salt: string;
-  accessToken?: string;
+export interface UserModel extends Model<InferAttributes<UserModel>, InferCreationAttributes<UserModel>> {
+    id: CreationOptional<number>
+    firstName: string
+    lastName: string
+    email: string
+    hash: string
+    salt: string
+    accessToken?: string
 }
 
 const User = db.define<UserModel>('User', {
@@ -20,11 +20,11 @@ const User = db.define<UserModel>('User', {
     },
     firstName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
     },
     lastName: {
         type: DataTypes.STRING,
-        allowNull: false
+        allowNull: false,
     },
     email: {
         type: DataTypes.STRING,
@@ -42,9 +42,9 @@ const User = db.define<UserModel>('User', {
         unique: true,
     },
     accessToken: {
-        type: DataTypes.STRING,
+        type: DataTypes.CHAR(1024),
         unique: true,
     },
 })
 
-export default User;
+export default User

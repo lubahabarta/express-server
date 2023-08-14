@@ -1,12 +1,13 @@
 import { Request, Response } from 'express'
-import { ILoginReqBody, IRegisterReqBody } from '../../common/interfaces/users/auth.interface';
-import userService from './user.service';
-import { authentication, random } from '../../common/helpers';
+import { ILoginReqBody, IRegisterReqBody } from '../../common/interfaces/users/auth.interface'
+import userService from './user.service'
+import { authentication, random } from '../../common/helpers'
+import jwt from 'jsonwebtoken'
 
 const userController = {
     register: async (req: Request<any, any, IRegisterReqBody>, res: Response) => {
         try {
-            const { firstName, lastName, email, password } = req.body;
+            const { firstName, lastName, email, password } = req.body
 
             if (!firstName || !lastName || !email || !password) {
                 return res.sendStatus(400)
@@ -25,7 +26,9 @@ const userController = {
                 return res.sendStatus(400)
             }
 
-            return res.status(200).json(user)
+            return res.status(200).json({
+                message: 'success',
+            })
         } catch (error) {
             console.log(`⚡️[server]: Unable to register: ${error}!`)
             return res.sendStatus(400)
@@ -42,13 +45,26 @@ const userController = {
         if (!user) {
             return res.sendStatus(400)
         }
-    },
-    getAllUsers: (req: Request, res: Response) => {
 
-    },
-    getUserByEmail: (req: Request, res: Response) => {
+        const expectedHash = authentication(user.salt, password)
+        if (expectedHash !== user.hash) {
+            return res.sendStatus(403)
+        }
 
-    }
+        const salt = random()
+        const hash = authentication(salt, password)
+        const accessToken = jwt.sign({ ...user.toJSON(), accessToken: null }, process.env.SECRET_ACCESS_KEY as string)
+
+        if (!(await userService.setUser(user, { salt, hash, accessToken }))) {
+            res.sendStatus(400)
+        }
+
+        res.status(200).json({
+            accessToken,
+        })
+    },
+    getAllUsers: (req: Request, res: Response) => {},
+    getUserByEmail: (req: Request, res: Response) => {},
 }
 
-export default userController;
+export default userController
