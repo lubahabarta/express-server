@@ -53,9 +53,9 @@ const userController = {
 
         const salt = random()
         const hash = authentication(salt, password)
-        const accessToken = jwt.sign({ ...user.toJSON(), accessToken: null }, process.env.SECRET_ACCESS_KEY as string)
+        const accessToken = jwt.sign({ ...user.toJSON() }, process.env.SECRET_ACCESS_KEY as string)
 
-        if (!(await userService.setUser(user, { salt, hash, accessToken }))) {
+        if (!(await userService.setUser(user, { salt, hash }))) {
             res.sendStatus(400)
         }
 

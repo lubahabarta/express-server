@@ -8,7 +8,6 @@ export interface UserModel extends Model<InferAttributes<UserModel>, InferCreati
     email: string
     hash: string
     salt: string
-    accessToken?: string
 }
 
 const User = db.define<UserModel>('User', {
@@ -39,10 +38,6 @@ const User = db.define<UserModel>('User', {
     salt: {
         type: DataTypes.STRING,
         allowNull: false,
-        unique: true,
-    },
-    accessToken: {
-        type: DataTypes.CHAR(1024),
         unique: true,
     },
 })
